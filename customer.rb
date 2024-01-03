@@ -1,6 +1,7 @@
 require 'httparty'
 class Customer
-    attr_accessor :first_name ,:last_name, :pin,:coins
+    attr_accessor :first_name ,:last_name, :pin,:coins, :attempt
+
 
     def initialize(first_name,last_name,pin)
 
@@ -11,6 +12,7 @@ class Customer
         @pin=pin
 
         @coin_list=[]
+        @attempt=0
     end
 
     def add_coin(name)
