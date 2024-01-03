@@ -82,7 +82,8 @@ module MenuMethods
             unless clean_data
                 return p "Invalid input"
             end
-            puts "price: $#{clean_data["priceUsd"].to_f.round(3)},Precent change for-24hr #{clean_data["changePercent24Hr"].to_f.round(3)}%"
+
+            puts "price: $#{clean_data["priceUsd"].to_f.round(3)},Precent change for-24hr #{clean_data["changePercent24Hr"].to_f.round(3)}% Market Cap:#{clean_data["marketCapUsd"].to_f.round(3)} Rank:#{clean_data["rank"]}" 
     end
 end
 
