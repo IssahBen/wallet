@@ -32,8 +32,14 @@ module MenuMethods
             puts "Enter an amount"
             amount=gets.chomp
             customer.deposit(name,amount)
+            customer
+        else
+            p "Invalid pin"
+
+            customer.attempt+=1
+            customer
         end
-        customer
+        
     end
 
     def withdraw(customer)
@@ -49,8 +55,14 @@ module MenuMethods
             puts "Enter an amount"
             amount=gets.chomp
             customer.withdraw(name,amount)
+            customer
+        else
+            p "Invalid pin"
+
+            customer.attempt+=1
+            customer
         end
-        customer
+
     end
 
     def view_balance(customer)
@@ -59,7 +71,15 @@ module MenuMethods
 
         unless customer.pin != pin
             customer.balance
+            customer
+        else 
+            p "Invalid pin"
+
+            customer.attempt+=1
+            customer
+            
         end
+
     end
 
     def view_assets_data(customer)

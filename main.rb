@@ -2,7 +2,9 @@ require_relative "menu_methods"
 include MenuMethods
 
 customer=nil
+
 while true
+    
     if customer == nil
         menu_string=<<-Menu
 
@@ -23,7 +25,7 @@ while true
             puts "Enter  crpto name to search"
             name=gets.chomp
 
-            puts MenuMethods.search(name)
+            MenuMethods.search(name)
         when "q"
             break
         end
@@ -39,6 +41,7 @@ while true
         Enter 3 to view balance
         Enter 4 to latest Assets info
         Enter q to quit 
+        You will be logged out  after 3 failed login attempts
         Menu
 
         puts menu_string
@@ -55,7 +58,7 @@ while true
         when "2"
             customer=MenuMethods.withdraw(customer)
         when "3"
-            MenuMethods.view_balance(customer)
+            customer=MenuMethods.view_balance(customer)
         when "4"
             MenuMethods.view_assets_data(customer)
         when "5"
@@ -66,6 +69,10 @@ while true
         when "q"
             break
         end
+    end
+    attempt=customer.attempt
+    unless attempt !=3
+        break
     end
 end
 
