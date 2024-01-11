@@ -1,8 +1,9 @@
-require 'httparty'
-require 'json'
+require 'pg'
+conn=PG.connect(dbname:'learning',user:'postgres',password:'postgres',host:'localhost')
 
-response=HTTParty.get('https://api.coincap.io/v2/assets/bitcoin')
+results=conn.exec('SELECT * FROM account_job')
 
-
-parsed_data=JSON.parse(response.body)
-puts parsed_data["data"["symbol"]]
+results.each do |row|
+    puts.row.values.join(',')
+end
+p a
