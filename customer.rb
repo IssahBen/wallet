@@ -16,7 +16,7 @@ class Customer
         @last_name = last_name
 
         @pin  = pin
-        @attempt  =0
+        @attempt  = 0
         @user_table = User.new(conn)
         @balance_table = CustomerBalances.new(conn)
 
@@ -91,6 +91,11 @@ class Customer
             @user_table.delete_user(@id)
         end
     end
+
+    def coin_list
+        @balance_table.pull_all_coin_names(@id)
+    end
+
 
 
 

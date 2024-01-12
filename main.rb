@@ -4,13 +4,13 @@ require_relative 'Models'
 
 
 customer=nil
+conn  = PG.connect(dbname:'learn',user:'postgres',password:'postgres',host:'localhost')
+user_table=User.new(conn)
+user_table.create_table
+balance_table=CustomerBalances.new(conn)
+balance_table.create_table
 
 while true
-    conn  = PG.connect(dbname:'learn',user:'postgres',password:'postgres',host:'localhost')
-    user_table=User.new(conn)
-    user_table.create_table
-    balance_table=CustomerBalances.new(conn)
-    balance_table.create_table
 
     if customer == nil
         menu_string=<<-Menu

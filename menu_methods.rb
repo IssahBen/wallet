@@ -50,38 +50,52 @@ module MenuMethods
 
 
     def deposit(customer)
-        puts "Enter name of asset"
+       
+             puts "Enter pin"
 
-        name = gets.chomp
+            pin = gets.chomp
 
-        puts "Enter pin"
+            if  customer.pin ==  pin
 
-        pin = gets.chomp
+            
+                if customer.coin_list.empty?
+                    puts "Add Asset"
+                    return customer
+                end
+                puts "Enter name of asset"
 
-        if  customer.pin ==  pin
-            puts "Enter an amount"
-            amount = gets.chomp
-            customer.deposit(name,amount)
-            customer
-        else
-            p "Invalid pin"
+                name = gets.chomp
 
-            customer.attempt += 1
-            customer
-        end
-        
+                puts "Enter an amount"
+                amount = gets.chomp
+                customer.deposit(name,amount)
+                customer
+            else
+                p "Invalid pin"
+
+                customer.attempt += 1
+                customer
+            end
+    
+            
     end
 
     def withdraw(customer)
-
-        puts "Enter name of asset"
-
-        name = gets.chomp
 
         puts "Enter pin"
         pin = gets.chomp
 
         unless customer.pin != pin
+            
+            if customer.coin_list.empty?
+                puts "Add Asset"
+                return customer
+            end
+
+
+            puts "Enter name of asset"
+
+            name = gets.chomp
             puts "Enter an amount"
             amount=gets.chomp
             puts customer.withdraw(name,amount)
@@ -103,6 +117,14 @@ module MenuMethods
         coin_name = gets.chomp
 
         unless customer.pin != pin
+            if customer.coin_list.empty?
+                puts "Add Asset"
+                return customer
+            end
+              
+            puts "Input coin_ name"
+            
+            coin_name = gets.chomp
             customer.balance(coin_name)
             customer
         else 
