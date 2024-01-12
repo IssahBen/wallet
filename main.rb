@@ -51,7 +51,8 @@ while true
         Enter 3 to view balance
         Enter 4 to latest Assets info
         Enter 5 to search  real time crypto info
-        Enter 6 to Update
+        Enter 6 to Update Pin
+        Enter 7 to Delete Account
 
         Enter q to quit 
         You will be logged out  after 3 failed login attempts
@@ -82,6 +83,9 @@ while true
              MenuMethods.search(name)
         when "6"
             customer=MenuMethods.update_pin(customer)
+        when "7"
+            MenuMethods.delete_account(customer)
+            break
         when "q"
             break
         end

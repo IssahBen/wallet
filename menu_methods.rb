@@ -162,6 +162,12 @@ module MenuMethods
         end
         customer
     end
+    def delete_account(customer)
+        customer.delete_user_account
+        puts "Account  has been deleted\n You will be logged out  "
+        
+    end
+        
 
 
 end

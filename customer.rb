@@ -83,6 +83,15 @@ class Customer
         @user_table.update_pin(@id,new_pin)
     end
 
+    def delete_user_account
+        if @balance_table.pull_all_coin_names(@id).empty?
+            @user_table.delete_user(@id)
+        else
+            @balance_table.delete_user(@id)
+            @user_table.delete_user(@id)
+        end
+    end
+
 
 
 

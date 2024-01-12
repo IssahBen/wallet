@@ -36,6 +36,10 @@ class User
         result.values.flatten.first
     end
 
+    def delete_user(id)
+        @conn.exec_params("DELETE FROM users WHERE id=$1",[id])
+    end
+
 
 
 
@@ -66,6 +70,10 @@ class  CustomerBalances
     def pull_all_coin_names(id)
         result = @conn.exec_params("SELECT coin_name FROM customer_balance WHERE customer_id=$1",[id])
         result = result.values.flatten
+    end
+
+    def delete_user(id)
+        @conn.exec_params("DELETE FROM users WHERE customer_id=$1",[id])
     end
 end
 
