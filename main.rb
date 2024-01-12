@@ -11,6 +11,7 @@ while true
         Welcome
         Enter 1 to create account
         Enter 2 to search  real time crypto info
+        Enter 3 to login
         Enter q to quit 
         Menu
 
@@ -26,12 +27,14 @@ while true
             name=gets.chomp
 
             MenuMethods.search(name)
+        when "3"
+            customer=MenuMethods.login
         when "q"
             break
         end
         next
     else
-        p customer
+
         menu_string=<<-Menu
 
         Welcome
@@ -40,6 +43,8 @@ while true
         Enter 2 to withdraw
         Enter 3 to view balance
         Enter 4 to latest Assets info
+        Enter 5 to search  real time crypto info
+
         Enter q to quit 
         You will be logged out  after 3 failed login attempts
         Menu
@@ -64,6 +69,7 @@ while true
         when "5"
             puts "Enter  crpto name to search"
             name=gets.chomp
+
 
              MenuMethods.search(name)
         when "q"

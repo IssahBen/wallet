@@ -1,80 +1,82 @@
 require 'httparty'
+require 'pg'
+require_relative "sample"
 class Customer
-    attr_accessor :first_name ,:last_name, :pin,:coins, :attempt
-
+    attr_reader :first_name ,:last_name, :pin,:attempt
+    
+    
 
     def initialize(first_name,last_name,pin)
+        conn = PG.connect(dbname:'learn',user:'postgres',password:'postgres',host:'localhost')
 
-        @first_name=first_name
 
-        @last_name=last_name
+        @first_name = first_name
 
-        @pin=pin
+        @last_name = last_name
 
-        @coin_list=[]
-        @attempt=0
-    end
+        @pin  = pin
+        @attempt  =0
+        @user_table = User.new(conn)
+        @balance_table = CustomerBalances.new(conn)
 
-    def add_coin(name)
+       
 
-        new_hash=Hash.new
+        unless @user_table.check_customer(first_name,last_name) 
 
-        new_hash[name]=0
+            @user_table.create_table
 
-        @coin_list << new_hash
-    end
+            @balance_table.create_table
 
-    def deposit(name,amount)
-
-        @coin_list.each do |hash|
-
-           if hash.keys[0] == name
-
-            hash[name] += amount.to_i
-            puts "Your balance is #{hash[name]}"
-           end
+            @user_table.insert(first_name,last_name,pin)
         end
+
+        @id = @user_table.pull_id(first_name,last_name,pin)
+
+
     end
 
-    def balance
-        balance=0
-        @coin_list.each do |hash|
-            
-            hash.each do|k,v|
-                p "#{k} : #{v}"
-            end
-        end
-        balance
+    def add_coin(coin_name)
+        @balance_table.insert(@id,coin_name,0)
+
+
+    end
+
+    def deposit(coin_name,amount)
+        balance = @balance_table.pull_balance(@id,coin_name)
+
+        new_balance = amount.to_i+balance.to_i
+
+        @balance_table.update_balance(@id,coin_name,new_balance)
+    end
+
+    def balance(coin_name)
+        result = @balance_table.pull_balance(@id,coin_name)
+        puts(result)
 
     end
     
-    def withdraw(name,amount)
-        
-        @coin_list.each do |hash|
+    def withdraw(coin_name,amount)
+        balance = @balance_table.pull_balance(@id,coin_name)
+        new_balance =- amount.to_i+balance.to_i
+        unless new_balance < 0
 
-            if hash.keys[0] == name
- 
-             hash[name] -= amount.to_i
-
-             puts "Your balance is #{hash[name]}"
-            end
-         
+            @balance_table.update_balance(@id,coin_name,new_balance)
+            return "New balance: #{new_balance}"
+        else
+            return 'INSUFFICIENT BALANCE'
         end
+            
     end
     def view_real_time_data
-        coins=[]
-
-        @coin_list.each do |hash|
-
-            coins << hash.keys[0]
-        end
+        coins = @balance_table.pull_all_coin_names(@id)
+        
         coins.each do |coin|
-            url=
-            response=HTTParty.get("https://api.coincap.io/v2/assets/#{coin}")
+            
+            response = HTTParty.get("https://api.coincap.io/v2/assets/#{coin}")
 
-            parsed_data=JSON.parse(response.body)
-            clean_data= parsed_data["data"]
-            puts "price: $#{clean_data["priceUsd"].to_i.round},Precent change for-24hr #{clean_data["changePercent24Hr"].to_i.round}%"
+            parsed_data = JSON.parse(response.body)
+            clean_data = parsed_data["data"]
+            puts "#{coin } price : $#{clean_data["priceUsd"].to_i.round},Precent change for-24hr #{clean_data["changePercent24Hr"].to_i.round}%"
         end
     end
 
