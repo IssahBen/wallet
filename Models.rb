@@ -19,13 +19,16 @@ class User
         return result.values.flatten.first
     end
 
-    def check_customer(first_name,last_name)
+    def customer?(first_name,last_name)
         result=@conn.exec_params("SELECT first_name,last_name FROM users WHERE first_name=$1 AND last_name=$2",[first_name,last_name])
         if result.values.empty?
-            return true
+            return false
         else
-            false
+            true
         end
+    end
+    def update_pin(id,new_pin)
+        @conn.exec_params("UPDATE users SET  pin=$1 WHERE id=$2 ",[new_pin,id])
     end
 
     def pull_pin(first_name,last_name)

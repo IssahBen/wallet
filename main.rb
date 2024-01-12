@@ -1,10 +1,17 @@
 require_relative "menu_methods"
 include MenuMethods
+require_relative 'Models'
+
 
 customer=nil
 
 while true
-    
+    conn  = PG.connect(dbname:'learn',user:'postgres',password:'postgres',host:'localhost')
+    user_table=User.new(conn)
+    user_table.create_table
+    balance_table=CustomerBalances.new(conn)
+    balance_table.create_table
+
     if customer == nil
         menu_string=<<-Menu
 
@@ -44,6 +51,7 @@ while true
         Enter 3 to view balance
         Enter 4 to latest Assets info
         Enter 5 to search  real time crypto info
+        Enter 6 to Update
 
         Enter q to quit 
         You will be logged out  after 3 failed login attempts
@@ -72,6 +80,8 @@ while true
 
 
              MenuMethods.search(name)
+        when "6"
+            customer=MenuMethods.update_pin(customer)
         when "q"
             break
         end

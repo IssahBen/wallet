@@ -1,8 +1,9 @@
 require 'httparty'
 require 'pg'
-require_relative "sample"
+require_relative "Models"
 class Customer
-    attr_reader :first_name ,:last_name, :pin,:attempt
+    attr_reader :first_name ,:last_name, :pin
+    attr_accessor :attempt
     
     
 
@@ -21,11 +22,7 @@ class Customer
 
        
 
-        unless @user_table.check_customer(first_name,last_name) 
-
-            @user_table.create_table
-
-            @balance_table.create_table
+        unless @user_table.customer?(first_name,last_name) 
 
             @user_table.insert(first_name,last_name,pin)
         end
@@ -78,6 +75,12 @@ class Customer
             clean_data = parsed_data["data"]
             puts "#{coin } price : $#{clean_data["priceUsd"].to_i.round},Precent change for-24hr #{clean_data["changePercent24Hr"].to_i.round}%"
         end
+    end
+
+    def update_pin(new_pin)
+        @pin=pin
+
+        @user_table.update_pin(@id,new_pin)
     end
 
 
