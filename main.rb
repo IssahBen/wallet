@@ -4,7 +4,7 @@ require_relative 'Models'
 
 
 customer=nil
-conn  = PG.connect(dbname:'learn',user:'postgres',password:'postgres',host:'localhost')
+conn  = PG.connect(dbname:'learn',user:'postgres',password:'relativity1',host:'localhost')
 user_table=User.new(conn)
 user_table.create_table
 balance_table=CustomerBalances.new(conn)

@@ -8,7 +8,7 @@ class Customer
     
 
     def initialize(first_name,last_name,pin)
-        conn = PG.connect(dbname:'learn',user:'postgres',password:'postgres',host:'localhost')
+        conn = PG.connect(dbname:'learn',user:'postgres',password:'relativity1',host:'localhost')
 
 
         @first_name = first_name
